@@ -4,25 +4,21 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 import 'package:zoom_clone/presentation/utils/utils.dart';
+import 'package:zoom_clone/services/firestore_methods.dart';
 
 class AuthMethods {
-
-
   final FirebaseAuth auth = FirebaseAuth.instance;
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
-  GoogleSignIn googleSignIn = GoogleSignIn(
-    scopes: [
-      'email',
-      'https://www.googleapis.com/auth/contacts.readonly',
-    ],
-  );
 
+  Stream<User?> get authChanges => auth.authStateChanges();
 
+  bool isLoading = false;
 
   Future<bool> signInWithGoogle(BuildContext context) async {
     bool res = false;
     try {
-      final GoogleSignInAccount? googleuser = await googleSignIn.signIn();
+      final GoogleSignInAccount? googleuser = await GoogleSignIn().signIn();
+
       final GoogleSignInAuthentication? googleAuth = await googleuser?.authentication;
 
       final credential = GoogleAuthProvider.credential(
@@ -35,12 +31,13 @@ class AuthMethods {
 
       if (user != null) {
         if (userCredential.additionalUserInfo!.isNewUser) {
-          await firestore.collection('users').doc(user.uid).set({
-            'username': user.displayName,
-            'uid': user.uid,
-            'profilepic': user.photoURL,
-            'mobile': user.phoneNumber,
-          });
+          await FirestoreMethods().addUser(
+            context: context,
+            username: user.displayName,
+            uid: user.uid,
+            photoURL: user.photoURL,
+            phoneNumber: user.phoneNumber,
+          );
         }
         res = true;
       }

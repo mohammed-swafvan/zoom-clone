@@ -41,21 +41,7 @@ class LogInScreen extends StatelessWidget {
                 }
               },
             ),
-            const Padding(
-              padding: EdgeInsets.only(bottom: 14),
-              child: Wrap(
-                children: [
-                  Text(
-                    "Don't have and accout?",
-                    style: TextStyle(fontWeight: FontWeight.w300),
-                  ),
-                  Text(
-                    "Sign Up",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                ],
-              ),
-            )
+        
           ],
         ),
       ),
