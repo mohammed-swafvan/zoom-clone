@@ -1,22 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:zoom_clone/presentation/screens/history_meeting_screen.dart';
+import 'package:zoom_clone/presentation/screens/meeting_screen.dart';
 import 'package:zoom_clone/presentation/utils/custom_colors.dart';
+import 'package:zoom_clone/provider/bottom_nav_provider.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
-  State<HomeScreen> createState() => _HomeScreenState();
-}
-
-class _HomeScreenState extends State<HomeScreen> {
-  @override
   Widget build(BuildContext context) {
-    int page = 0;
-    onPageChanged(int currentPage) {
-      setState(() {
-        page = currentPage;
-      });
-    }
+    List<Widget> pages = [
+      MeetingScreen(),
+      const HistoryMeetingScreen(),
+      const Text('Contact'),
+      const Text('Settings'),
+    ];
 
     return Scaffold(
       appBar: AppBar(
@@ -25,34 +24,41 @@ class _HomeScreenState extends State<HomeScreen> {
         centerTitle: true,
         backgroundColor: CustomColor.backgroundColor,
       ),
-      bottomNavigationBar: BottomNavigationBar(
-        currentIndex: page,
-        backgroundColor: CustomColor.footerColor,
-        selectedItemColor: Colors.white,
-        unselectedItemColor: Colors.grey,
-        type: BottomNavigationBarType.fixed,
-        onTap: (index) {
-          onPageChanged(index);
+      body: Consumer<BottomNavProvider>(
+        builder: (context, value, _) {
+          return pages[value.page];
         },
-        items: const [
-          BottomNavigationBarItem(
-            icon: Icon(Icons.comment_bank),
-            label: 'Meet & Chat',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.lock),
-            label: 'Meeting',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.person_2_outlined),
-            label: 'Contacts',
-          ),
-          BottomNavigationBarItem(
-            icon: Icon(Icons.settings_outlined),
-            label: 'Settings',
-          ),
-        ],
       ),
+      bottomNavigationBar: Consumer<BottomNavProvider>(builder: (context, value, _) {
+        return BottomNavigationBar(
+          currentIndex: value.page,
+          backgroundColor: CustomColor.footerColor,
+          selectedItemColor: Colors.white,
+          unselectedItemColor: Colors.grey,
+          type: BottomNavigationBarType.fixed,
+          onTap: (index) {
+            value.onPageChanged(index);
+          },
+          items: const [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.comment_bank),
+              label: 'Meet & Chat',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.lock),
+              label: 'Meetings',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.person_2_outlined),
+              label: 'Contacts',
+            ),
+            BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined),
+              label: 'Settings',
+            ),
+          ],
+        );
+      }),
     );
   }
 }

@@ -264,6 +264,38 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.9.1"
+  nested:
+    dependency: transitive
+    description:
+      name: nested
+      sha256: "03bac4c528c64c95c722ec99280375a6f2fc708eec17c7b3f07253b626cd2a20"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.0"
+  omni_jitsi_meet:
+    dependency: "direct main"
+    description:
+      name: omni_jitsi_meet
+      sha256: "7381d1ba871b92d979ce304929f8582605236681038822d0e525bb8dd26f755d"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
+  omni_jitsi_meet_platform_interface:
+    dependency: transitive
+    description:
+      name: omni_jitsi_meet_platform_interface
+      sha256: "1789f0b42d3e7a7953034a9b898b519e42dcde2aff7cddfc845d5ad8b3ae7875"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
+  omni_jitsi_meet_web_plugin:
+    dependency: transitive
+    description:
+      name: omni_jitsi_meet_web_plugin
+      sha256: e5dfe938fe63ae77462b18b527b8362430ebdf85ee160357b11ebee5ba51a1a9
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.14"
   path:
     dependency: transitive
     description:
@@ -280,6 +312,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.1.5"
+  provider:
+    dependency: "direct main"
+    description:
+      name: provider
+      sha256: cdbe7530b12ecd9eb455bdaa2fcb8d4dad22e80b8afb4798b41479d5ce26847f
+      url: "https://pub.dev"
+    source: hosted
+    version: "6.0.5"
   quiver:
     dependency: transitive
     description:

@@ -11,6 +11,7 @@ class AuthMethods {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
 
   Stream<User?> get authChanges => auth.authStateChanges();
+  User get user => auth.currentUser!;
 
   bool isLoading = false;
 
