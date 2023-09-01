@@ -5,8 +5,10 @@ import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_clone/presentation/screens/home_screen.dart';
 import 'package:zoom_clone/presentation/screens/login_screen.dart';
+import 'package:zoom_clone/presentation/screens/video_call_screen.dart';
 import 'package:zoom_clone/presentation/utils/custom_colors.dart';
 import 'package:zoom_clone/provider/bottom_nav_provider.dart';
+import 'package:zoom_clone/provider/video_call_provider.dart';
 import 'package:zoom_clone/services/auth_methods.dart';
 
 void main() async {
@@ -24,6 +26,7 @@ class MyApp extends StatelessWidget {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) => BottomNavProvider()),
+        ChangeNotifierProvider(create: (_) => VideoCallProvider()),
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
@@ -35,6 +38,7 @@ class MyApp extends StatelessWidget {
         routes: {
           '/login': (context) => const LogInScreen(),
           '/home': (context) => const HomeScreen(),
+          '/video-call':(context) => const VideoCallScreen(),
         },
         home: StreamBuilder(
           stream: AuthMethods().authChanges,
