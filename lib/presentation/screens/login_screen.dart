@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:zoom_clone/presentation/screens/home_screen.dart';
 import 'package:zoom_clone/presentation/widgets/custom_botton.dart';
@@ -32,16 +31,17 @@ class LogInScreen extends StatelessWidget {
               onTap: () async {
                 bool res = await authMethods.signInWithGoogle(context);
                 if (res) {
-                  Navigator.pushReplacement(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => const HomeScreen(),
-                    ),
-                  );
+                  if (context.mounted) {
+                    Navigator.pushReplacement(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const HomeScreen(),
+                      ),
+                    );
+                  }
                 }
               },
             ),
-        
           ],
         ),
       ),

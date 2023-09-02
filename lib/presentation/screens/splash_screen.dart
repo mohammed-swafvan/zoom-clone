@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:zoom_clone/presentation/screens/home_screen.dart';
@@ -50,11 +49,13 @@ class _SplashScreenState extends State<SplashScreen> {
 
   Future goToMainPage() async {
     await Future.delayed(const Duration(seconds: 3));
-    Navigator.of(context).pushReplacement(
+    if (context.mounted) {
+      Navigator.of(context).pushReplacement(
       MaterialPageRoute(
         builder: (context) => const MainPage(),
       ),
     );
+    }
   }
 }
 

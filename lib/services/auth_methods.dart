@@ -1,6 +1,4 @@
-// ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -34,18 +32,22 @@ class AuthMethods {
 
       if (user != null) {
         if (userCredential.additionalUserInfo!.isNewUser) {
-          await FirestoreMethods().addUser(
-            context: context,
-            username: user.displayName,
-            uid: user.uid,
-            photoURL: user.photoURL,
-            phoneNumber: user.phoneNumber,
-          );
+          if (context.mounted) {
+            await FirestoreMethods().addUser(
+              context: context,
+              username: user.displayName,
+              uid: user.uid,
+              photoURL: user.photoURL,
+              phoneNumber: user.phoneNumber,
+            );
+          }
         }
         res = true;
       }
     } on FirebaseAuthException catch (e) {
-      Utils.showSnackBar(context: context, text: e.message!);
+      if (context.mounted) {
+        Utils.showSnackBar(context: context, text: e.message!);
+      }
       res = false;
     }
     return res;

@@ -1,9 +1,8 @@
-// ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:uuid/uuid.dart';
 import 'package:zoom_clone/presentation/utils/utils.dart';
 
 class FirestoreMethods {
@@ -28,19 +27,31 @@ class FirestoreMethods {
         'mobile': phoneNumber,
       });
     } on FirebaseException catch (e) {
-      Utils.showSnackBar(context: context, text: e.message!);
+      if (context.mounted) {
+        Utils.showSnackBar(context: context, text: e.message!);
+      }
     }
   }
 
   Future<void> addToMeetingHistory({required String meetingName}) async {
+    String id = const Uuid().v1();
     try {
-      await firestore.collection('users').doc(auth.currentUser!.uid).collection('meetings').add(
+      await firestore.collection('users').doc(auth.currentUser!.uid).collection('meetings').doc(id).set(
         {
           'meetingName': meetingName,
           'createdAt': DateTime.now(),
           'photoUrl': auth.currentUser!.photoURL,
+          'id': id,
         },
       );
+    } on FirebaseException catch (e) {
+      log(e.message!);
+    }
+  }
+
+  Future<void> deleteSingleMeetInHistory({required String id}) async {
+    try {
+      await firestore.collection('users').doc(auth.currentUser!.uid).collection('meetings').doc(id).delete();
     } on FirebaseException catch (e) {
       log(e.message!);
     }

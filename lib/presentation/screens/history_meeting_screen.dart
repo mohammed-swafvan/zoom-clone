@@ -26,6 +26,12 @@ class HistoryMeetingScreen extends StatelessWidget {
           );
         }
 
+        if (snapshot.data!.docs.isEmpty) {
+          return const Center(
+            child: Text('No Data Available'),
+          );
+        }
+
         return ListView.builder(
           itemCount: snapshot.data!.docs.length,
           itemBuilder: (context, index) {
@@ -45,10 +51,47 @@ class HistoryMeetingScreen extends StatelessWidget {
                 "Joined On: ${DateFormat.yMMMd().format(snap['createdAt'].toDate())}",
                 style: const TextStyle(color: Colors.grey, fontSize: 12),
               ),
+              trailing: IconButton(
+                onPressed: () async {
+                  showAdaptiveDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return AlertDialog.adaptive(
+                        title: const Text('Confirmation'),
+                        content: const Text('Are you sure you want to Delete?'),
+                        actions: [
+                          TextButton(
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                            },
+                            child: const Text('Cancel'),
+                          ),
+                          TextButton(
+                            onPressed: () async {
+                              Navigator.of(context).pop();
+                              await deleteItem(id: snap['id']);
+                            },
+                            child: const Text('Yes'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+                icon: const Icon(
+                  Icons.delete,
+                  size: 20,
+                  color: Colors.grey,
+                ),
+              ),
             );
           },
         );
       },
     );
+  }
+
+  deleteItem({required String id}) async {
+    await FirestoreMethods().deleteSingleMeetInHistory(id: id);
   }
 }

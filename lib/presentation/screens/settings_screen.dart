@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'package:flutter/material.dart';
 import 'package:zoom_clone/presentation/screens/login_screen.dart';
 import 'package:zoom_clone/presentation/widgets/custom_botton.dart';
@@ -28,15 +27,7 @@ class SettingsScreen extends StatelessWidget {
                 TextButton(
                   onPressed: () async {
                     Navigator.of(context).pop(); // Close the dialog
-                    bool res = await AuthMethods().signOut();
-                    if (res) {
-                      Navigator.pushReplacement(
-                        context,
-                        MaterialPageRoute(
-                          builder: (context) => const LogInScreen(),
-                        ),
-                      );
-                    }
+                    await performLogOut(context);
                   },
                   child: const Text('Log Out'),
                 ),
@@ -46,5 +37,19 @@ class SettingsScreen extends StatelessWidget {
         );
       },
     );
+  }
+
+  Future<void> performLogOut(BuildContext context) async {
+    bool res = await AuthMethods().signOut();
+    if (res) {
+      if (context.mounted) {
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => const LogInScreen(),
+          ),
+        );
+      }
+    }
   }
 }
