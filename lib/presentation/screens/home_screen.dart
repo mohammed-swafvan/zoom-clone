@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:zoom_clone/presentation/screens/history_meeting_screen.dart';
 import 'package:zoom_clone/presentation/screens/meeting_screen.dart';
+import 'package:zoom_clone/presentation/screens/settings_screen.dart';
 import 'package:zoom_clone/presentation/utils/custom_colors.dart';
 import 'package:zoom_clone/provider/bottom_nav_provider.dart';
 
@@ -12,15 +13,18 @@ class HomeScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     List<Widget> pages = [
       MeetingScreen(),
-      const HistoryMeetingScreen(),
+      HistoryMeetingScreen(),
       const Text('Contact'),
-      const Text('Settings'),
+      const SettingsScreen(),
     ];
 
     return Scaffold(
       appBar: AppBar(
         elevation: 0,
-        title: const Text('Meet & Chat'),
+        title: const Text(
+          'Meet & Chat',
+          style: TextStyle(fontSize: 22),
+        ),
         centerTitle: true,
         backgroundColor: CustomColor.backgroundColor,
       ),

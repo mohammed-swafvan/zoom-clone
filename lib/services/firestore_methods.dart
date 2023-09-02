@@ -10,6 +10,9 @@ class FirestoreMethods {
   final FirebaseFirestore firestore = FirebaseFirestore.instance;
   final FirebaseAuth auth = FirebaseAuth.instance;
 
+  Stream<QuerySnapshot<Map<String, dynamic>>> get meetingHistory =>
+      firestore.collection('users').doc(auth.currentUser!.uid).collection('meetings').snapshots();
+
   Future<void> addUser({
     required BuildContext context,
     required String? username,
@@ -35,6 +38,7 @@ class FirestoreMethods {
         {
           'meetingName': meetingName,
           'createdAt': DateTime.now(),
+          'photoUrl': auth.currentUser!.photoURL,
         },
       );
     } on FirebaseException catch (e) {

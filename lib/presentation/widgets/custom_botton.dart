@@ -9,7 +9,7 @@ class CustomButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 50, horizontal: 30),
+      padding: const EdgeInsets.symmetric(horizontal: 30).copyWith(bottom: 50, top: 20),
       child: ElevatedButton(
         onPressed: onTap,
         style: ElevatedButton.styleFrom(

@@ -49,5 +49,17 @@
     <string>$(PRODUCT_NAME) MyApp needs access to your camera for meetings.</string>
     <key>NSMicrophoneUsageDescription</key>
     <string>$(PRODUCT_NAME) MyApp needs access to your microphone for meetings.</string>
+	<key>CFBundleURLTypes</key>
+	<array>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
+				<string>com.googleusercontent.apps.1074865092721-bq7cn1roikp81qjli4ssqstpol5kg3go</string>
+			</array>
+		</dict>
+	</array>
+
 </dict>
 </plist>

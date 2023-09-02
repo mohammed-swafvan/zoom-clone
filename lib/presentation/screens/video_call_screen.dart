@@ -64,7 +64,10 @@ class _VideoCallScreenState extends State<VideoCallScreen> {
           },
           icon: const Icon(Icons.arrow_back_ios_new),
         ),
-        title: const Text('Join a Meeting'),
+        title: const Text(
+          'Join a Meeting',
+          style: TextStyle(fontSize: 22),
+        ),
         centerTitle: true,
         backgroundColor: CustomColor.backgroundColor,
       ),
