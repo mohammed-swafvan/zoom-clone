@@ -51,11 +51,13 @@ class AuthMethods {
     return res;
   }
 
-  Future<void> signOut() async{
+  Future<bool> signOut() async {
     try {
       await auth.signOut();
+      return true;
     } catch (e) {
       log(e.toString());
+      return false;
     }
   }
 }
