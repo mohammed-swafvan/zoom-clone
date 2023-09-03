@@ -56,4 +56,16 @@ class FirestoreMethods {
       log(e.message!);
     }
   }
+
+  Future<void> clearMeetingHistory() async {
+    try {
+      QuerySnapshot<Map<String, dynamic>> querySnapshot =
+          await firestore.collection('users').doc(auth.currentUser!.uid).collection('meetings').get();
+      for (var documentSnapshot in querySnapshot.docs) {
+        await documentSnapshot.reference.delete();
+      }
+    } on FirebaseException catch (e) {
+      log(e.message!);
+    }
+  }
 }

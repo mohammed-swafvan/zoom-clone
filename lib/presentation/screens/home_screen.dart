@@ -5,12 +5,15 @@ import 'package:zoom_clone/presentation/screens/meeting_screen.dart';
 import 'package:zoom_clone/presentation/screens/settings_screen.dart';
 import 'package:zoom_clone/presentation/utils/custom_colors.dart';
 import 'package:zoom_clone/provider/bottom_nav_provider.dart';
+import 'package:zoom_clone/services/firestore_methods.dart';
 
 class HomeScreen extends StatelessWidget {
   const HomeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    FirestoreMethods firestoreMethods = FirestoreMethods();
+
     List<Widget> pages = [
       MeetingScreen(),
       HistoryMeetingScreen(),
@@ -27,6 +30,38 @@ class HomeScreen extends StatelessWidget {
         ),
         centerTitle: true,
         backgroundColor: CustomColor.backgroundColor,
+        actions: [
+          Consumer<BottomNavProvider>(
+            builder: (context, value, _) {
+              return value.page == 1
+                  ? PopupMenuButton<String>(
+                      itemBuilder: (BuildContext context) {
+                        return [
+                          const PopupMenuItem<String>(
+                            value: 'item',
+                            child: Row(
+                              children: [
+                                Icon(
+                                  Icons.delete,
+                                  size: 22,
+                                ),
+                                SizedBox(width: 8.0),
+                                Text('Clear History'),
+                              ],
+                            ),
+                          ),
+                        ];
+                      },
+                      onSelected: (String value) async {
+                        if (value == 'item') {
+                          await firestoreMethods.clearMeetingHistory();
+                        }
+                      },
+                    )
+                  : const SizedBox();
+            },
+          )
+        ],
       ),
       body: Consumer<BottomNavProvider>(
         builder: (context, value, _) {
